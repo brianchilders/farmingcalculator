@@ -63,7 +63,7 @@ let swise_1inch_ratio = 0;
 
 	<nav class="navbar is-transparent is-fixed">
 		<div class="navbar-brand">
-		  <a class="navbar-item" href="https://bulma.io">
+		  <a class="navbar-item" href="https://stakewise.io/">
 			<img src="img/logo.svg" alt="Swise farming calculator" width="112" height="28">
 		  </a>
 		</div>
@@ -273,11 +273,13 @@ function(err, data) {
   }
 });
 
+// Set startdate and enddate on page load
 window.onload = function() {
   startdate.innerHTML = new Date();
 	enddate.innerHTML = new Date();
 };
 
+// Show Connect wallet coming soon alert
 function comingSoon() {
 	alert("This feature is coming soon");
 }
