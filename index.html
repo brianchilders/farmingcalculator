@@ -1,5 +1,7 @@
 <html>
 <head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+	<link rel="icon" type="image/png" href="img/favicon.png"/>
 <style>
 td, th {
     border: 1px solid black;
@@ -56,39 +58,63 @@ let swise_1inch_ratio = 0;
 </script>
 <title>Farming Calculator Solution</title>
 </head>
+
 <body>
-<form name="spreadsheet" id="spreadsheet">
-<table>
-<tr>
-	<td>Current Price of ETH (USD)</td>
-	<td id="currprice_ethereum"></td>
-	<td>&nbsp;</td>
-	<td>Days Left To Farm</td>
-	<td><input type="text" id="days" value="30"></td>
-	<td></td>
-</tr>
-<tr>
-	<td>Current Price of SWISE (USD)</td>
-	<td id="currprice_swise"></td>
-	<td></td>
-	<td>Total Value of SWISE</td>
-	<td id="value_swise"></td>
-	<td></td>
-</tr>
-<tr>
-	<td>Current Price of 1inch (USD)</td>
-	<td id="currprice_1inch"></td>
-	<td></td>
-	<td>Total Cost of 1inch</td>
-	<td id="cost_1inch"></td>
-	<td></td>
-</tr>
+
+	<nav class="navbar is-transparent is-fixed">
+		<div class="navbar-brand">
+		  <a class="navbar-item" href="https://bulma.io">
+			<img src="img/logo.svg" alt="Swise farming calculator" width="112" height="28">
+		  </a>
+		</div>
+	  
+		  <div class="navbar-end">
+			<div class="navbar-item">
+			  <div class="field is-grouped">
+				<p class="control">
+				  <a class="bd-tw-button button is-rounded" onClick="comingSoon()" data-tooltip="Tooltip Text">
+					  Connect Wallet
+				  </a>
+				</p>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </nav>
+
+	  <section class="section">
+		<form name="spreadsheet" id="spreadsheet">
+		<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth'">
+			<tr>
+				<td>Current Price of ETH (USD)</td>
+				<td id="currprice_ethereum"></td>
+				<td>&nbsp;</td>
+				<td>Days Left To Farm</td>
+				<td><input type="text" id="days" value="30"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Current Price of SWISE (USD)</td>
+				<td id="currprice_swise"></td>
+				<td></td>
+				<td>Total Value of SWISE</td>
+				<td id="value_swise"></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Current Price of 1inch (USD)</td>
+				<td id="currprice_1inch"></td>
+				<td></td>
+				<td>Total Cost of 1inch</td>
+				<td id="cost_1inch"></td>
+				<td></td>
+			</tr>
 <tr>
 <td>&nbsp;&nbsp;<br/>&nbsp;&nbsp;</td><td></td><td></td><td></td><td></td><td></td>
 </tr>
 <tr>
 	<td>SWAP ETH to SWISE PRICE / LP Costs (USD)</td>
-	<td><input id="swap_swise" value="0"></td>
+	<td><input id="swap_swise" value="0" onfocus="this.value=''"></td>
 	<td></td>
 	<td>Farming Start Date (TODAY)</td>
 	<td id="startdate"></td>
@@ -96,7 +122,7 @@ let swise_1inch_ratio = 0;
 </tr>
 <tr>
 	<td>SWAP ETH to 1inch PRICE / LP Costs (USD)</td>
-	<td><input id="swap_1inch" value="0"></td>
+	<td><input id="swap_1inch" value="0" onfocus="this.value=''"></td>
 	<td></td>
 	<td>Farming End Date</td>
 	<td id="enddate"></td>
@@ -134,14 +160,13 @@ let swise_1inch_ratio = 0;
 	<td><input type="text" id="apy" value="30"></td>
 	<td></td>
 	<td colspan=2>Final Profit (Assumes selling 1inch at current price and keeping SWISE)</td>
-	<td id="finalprofitrealized"></td>
+	<td id="finalprofitrealized" class="has-text-success is-bold has-background-success-light"></td>
 </tr>
 </table>
+<input type="button" value="Calculate Farming Gains!" class="button is-link is-rounded" onClick="showCalculation()">
 <br/>
-<input type="button" value="Calculate!" onClick="showCalculation()">
 <br/>
-<br/>
-<table>
+<table class="table is-bordered is-striped is-narrow is-hoverable">
 <tr>
 	<td colspan=5>Current Gas Prices (gwei)</td>
 </tr>
@@ -158,9 +183,11 @@ let swise_1inch_ratio = 0;
 	<td><b id="fast"></b></td>
 	<td><b id="standard"></b></td>
 	<td><b id="slow"></b></td>
-</tr>
-</table>
-</form>
+	</tr>
+	</table>
+	</form>
+</section>
+
 <script>
 let wsObj;
 let wsUrl = 'wss://www.gasnow.org/ws';
@@ -246,6 +273,15 @@ function(err, data) {
   }
 });
 
+window.onload = function() {
+  startdate.innerHTML = new Date();
+	enddate.innerHTML = new Date();
+};
+
+function comingSoon() {
+	alert("This feature is coming soon");
+}
+
 function showCalculation() {
 	// Calculate ratio
 	swise_1inch_ratio = current_price_1inch / current_price_swise;
@@ -282,35 +318,30 @@ function showCalculation() {
 	finalprofitrealized.innerHTML = finalprofit;
 };
 </script>
-<br/>
-<br/>
-<br/>
-<br/>
-What this worksheet does:<br/>
-<br/>
+<section class="section">
+<h3 class="title is-3">What this worksheet does:</h3>
+
 1. The worksheet goes out to coingecko.com and fetches the latest prices for ETH, SWISE and 1inch.<br/>
 2. The worksheet expects the user to put in a value for "Amount of SWISE investing".<br/>
 3. The worksheet expects the user to put in "Estimated Actual APY (%)" (in percent).<br/>
 4. The worksheet expects the user to put in "Days Left To Farm".<br/>
-5. Then press the "Calculate!" button.<br/>
+5. Then press the "Calculate farming Gains!" button.<br/>
 6. The worksheet will calculate the amount of 1inch that will need to be purchased to maintain a 1:1 parity in USD and display that in the "Amount of 1inch need to purchase" field.<br/>
 7. The worksheet will calculate the fiat value of SWISE and 1inch (in USD).<br/>
 8.  Given the formula PRINCIPAL * ((APY %/ 100) / 365) * DAYS, it calculates the potential SWISE Rewards Earned and the corresponding Fiat Value.<br/>
 9. The cost of doing the LP is deducted from the earned SWISE Fiat value.  This is "net profit realized".  It is assumed that the 1inch that was bought will also be sold, as it will not be possible to earn 1inch rewards, and sold for at least the same price it was bought for.  In order to even "make a profit", the 1inch tokens need to be sold.
 <br/>
 <br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-made with &#x2665; by ShornEvans, Quick and brianchilders for the StakeWise community.
+</section>
+
+<footer class="footer">
+  <div class="content has-text-centered">
+    <p>
+      Made with &#x2665; by ShornEvans, Quick and brianchilders for the StakeWise community.
+			Eat Steak be Wise.
+    </p>
+  </div>
+</footer>
+
 </body>
 </html>
