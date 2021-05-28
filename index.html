@@ -87,7 +87,7 @@ let swise_1inch_ratio = 0;
 		<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth'">
 			<tr>
 				<td>Current Price of ETH (USD)</td>
-				<td id="currprice_ethereum"></td>
+				<td><input type="text" id="currprice_ethereum"></td>
 				<td>&nbsp;</td>
 				<td>Days Left To Farm</td>
 				<td><input type="text" id="days" value="30"></td>
@@ -95,7 +95,7 @@ let swise_1inch_ratio = 0;
 			</tr>
 			<tr>
 				<td>Current Price of SWISE (USD)</td>
-				<td id="currprice_swise"></td>
+				<td><input type="text" id="currprice_swise"></td>
 				<td></td>
 				<td>Total Value of SWISE</td>
 				<td id="value_swise"></td>
@@ -103,7 +103,7 @@ let swise_1inch_ratio = 0;
 			</tr>
 			<tr>
 				<td>Current Price of 1inch (USD)</td>
-				<td id="currprice_1inch"></td>
+				<td><input type="text" id="currprice_1inch"></td>
 				<td></td>
 				<td>Total Cost of 1inch</td>
 				<td id="cost_1inch"></td>
@@ -247,7 +247,8 @@ function(err, data) {
     alert('Something went wrong: ' + err);
   } else {
     current_price_swise = data.market_data.current_price.usd;
-    currprice_swise.innerHTML = current_price_swise;
+	// change from td to input, use value instead of innerHTML
+    currprice_swise.value = current_price_swise;
   }
 });
 
@@ -258,7 +259,8 @@ function(err, data) {
     alert('Something went wrong: ' + err);
   } else {
     current_price_1inch = data.market_data.current_price.usd;
-    currprice_1inch.innerHTML = current_price_1inch;
+	// change from td to input, use value instead of innerHTML
+    currprice_1inch.value = current_price_1inch;
   }
 });
 
@@ -269,7 +271,8 @@ function(err, data) {
     alert('Something went wrong: ' + err);
   } else {
     current_price_ethereum = data.market_data.current_price.usd;
-    currprice_ethereum.innerHTML = current_price_ethereum;
+	// change from td to input, use value instead of innerHTML
+    currprice_ethereum.value = current_price_ethereum;
   }
 });
 
@@ -284,7 +287,7 @@ function comingSoon() {
 
 function showCalculation() {
 	// Calculate ratio
-	swise_1inch_ratio = current_price_1inch / current_price_swise;
+	swise_1inch_ratio = currprice_1inch.value / currprice_swise.value;
 
 	// Determine how much 1inch to purchase
         amount_1inch_purchase = amount_swise.value / swise_1inch_ratio;
@@ -293,8 +296,8 @@ function showCalculation() {
 	purchase_1inch.innerHTML = amount_1inch_purchase;
 
 	// Calculate fiat (USD) value of SWISE and (USD) purchase of 1inch
-	total_value_swise = current_price_swise * amount_swise.value;
-	total_cost_1inch = current_price_1inch * amount_1inch_purchase;
+	total_value_swise = currprice_swise.value * amount_swise.value;
+	total_cost_1inch = currprice_1inch.value * amount_1inch_purchase;
 
 	// Update display for crypto dollar values
 	value_swise.innerHTML = total_value_swise;
@@ -302,7 +305,7 @@ function showCalculation() {
 
 	// Update display
 	startdate.innerHTML = new Date();
-	enddate.innerHTML = new Date();
+	enddate.innerHTML = "Date of end of farming for 1 inch";
 
 	// Calculate rewards earned
 	swise_rewards_earned = amount_swise.value * ((apy.value / 100) / 365) * days.value; 	
