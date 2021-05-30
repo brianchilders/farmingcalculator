@@ -48,3 +48,7 @@
     background-position: 100% 0;
     background-color: #1d8cf8;
 }
+
+.calculator-input {
+    background-color: #f1f6ff !important;
+}

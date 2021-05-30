@@ -10,7 +10,7 @@ const easeOutQuad = t => t * ( 2 - t );
 // The animation function, which takes an Element
 const animateCountUp = el => {
 	let frame = 0;
-	const countTo = parseInt( el.innerHTML, 10 );
+	const countTo = parseFloat( el.innerHTML.replace(/,/g, ".") );
 	// Start the animation running 60 times per second
 	const counter = setInterval( () => {
 		frame++;
@@ -19,10 +19,11 @@ const animateCountUp = el => {
 		// progress on a curve
 		const progress = easeOutQuad( frame / totalFrames );
 		// Use the progress value to calculate the current count
-		const currentCount = Math.abs( countTo * progress );
+		const currentCount = countTo * progress;
+        console.log(currentCount);
 
 		// If the current count has changed, update the element
-		if ( parseInt( el.innerHTML, 10 ) !== currentCount ) {
+		if ( parseFloat( el.innerHTML.replace(/,/g, ".") ) !== currentCount ) {
 			el.innerHTML = currentCount;
 		}
 
